@@ -90,6 +90,11 @@ function ProductForm({ id, ...props }) {
   }
 
   function onSubmit() {
+    if (!name || !author || !category || !desc) {
+      alert("Please fill all the fields");
+      return;
+    }
+
     if (id) {
       onEditSubmit();
     } else {
