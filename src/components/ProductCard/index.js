@@ -1,7 +1,10 @@
 import React from "react";
 import { Button, Card, Image } from "semantic-ui-react";
+import { useHistory } from "react-router-dom";
 
-export default function(props) {
+export default function({ book, ...props }) {
+  const history = useHistory();
+
   return (
     <div>
       <Card>
@@ -11,19 +14,19 @@ export default function(props) {
             size="mini"
             src="https://react.semantic-ui.com/images/avatar/large/steve.jpg"
           />
-          <Card.Header>Steve Sanders</Card.Header>
-          <Card.Meta>Friends of Elliot</Card.Meta>
-          <Card.Description>
-            Steve wants to add you to the group <strong>best friends</strong>
-          </Card.Description>
+          <Card.Header>{book.name}</Card.Header>
+          <Card.Meta>{book.author}</Card.Meta>
+          <Card.Meta>{book.category}</Card.Meta>
+          <Card.Description>{book.description}</Card.Description>
         </Card.Content>
         <Card.Content extra>
           <div className="ui two buttons">
-            <Button basic color="green">
+            <Button
+              onClick={() => history.push(`/edit/${book._id}`)}
+              basic
+              color="green"
+            >
               Edit
-            </Button>
-            <Button basic color="red">
-              Delete
             </Button>
           </div>
         </Card.Content>

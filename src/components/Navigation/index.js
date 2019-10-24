@@ -1,38 +1,31 @@
-import React, { Component } from "react";
+import React, { Component, useState } from "react";
 import { Link } from "react-router-dom";
 import { Button, Dropdown, Menu } from "semantic-ui-react";
+import { useHistory } from "react-router-dom";
 
-export default class MenuExampleSizeSmall extends Component {
-  state = { activeItem: "home" };
+export default props => {
+  const [activeItem, setActiveItem] = useState("home");
+  const history = useHistory();
 
-  handleItemClick = (e, { name }) => this.setState({ activeItem: name });
+  const handleItemClick = (e, { name }) => setActiveItem(name);
 
-  render() {
-    const { activeItem } = this.state;
+  return (
+    <Menu size="small">
+      <Menu.Item
+        as={Link}
+        to="/"
+        name="Home"
+        active={activeItem === "home"}
+        onClick={handleItemClick}
+      />
 
-    return (
-      <Menu size="small">
-        <Menu.Item
-          as={Link}
-          to="/"
-          name="Home"
-          active={activeItem === "home"}
-          onClick={this.handleItemClick}
-        />
-        <Menu.Item
-          as={Link}
-          to="/edit/jndjndjsandkjsa"
-          name="edit"
-          active={activeItem === "edit"}
-          onClick={this.handleItemClick}
-        />
-
-        <Menu.Menu position="right">
-          <Menu.Item>
-            <Button primary>Add Book</Button>
-          </Menu.Item>
-        </Menu.Menu>
-      </Menu>
-    );
-  }
-}
+      <Menu.Menu position="right">
+        <Menu.Item>
+          <Button onClick={() => history.push(`/add`)} primary>
+            Add Book
+          </Button>
+        </Menu.Item>
+      </Menu.Menu>
+    </Menu>
+  );
+};

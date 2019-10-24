@@ -14,7 +14,7 @@ const options = [
   { key: "o", text: "Others", value: "other" }
 ];
 
-function ProductForm(props) {
+function ProductForm({ id, ...props }) {
   /**
    * Base State
    */
@@ -23,22 +23,91 @@ function ProductForm(props) {
   const [author, onAuthorChange] = useState("");
   const [desc, onDescChange] = useState("");
 
-  // useEffect(() => {
-  //   onNameChange("Harry Potter");
-  //   onCategoryChange("novel");
-  //   onAuthorChange("JK Rowling");
-  //   onDescChange("Just some random book");
-  // }, []);
+  useEffect(() => {
+    async function fetchData(params) {
+      const res = await fetch(`http://localhost:5000/books/${id}`);
+      if (res.ok) {
+        const data = await res.json();
+        console.log("Edit Data", data);
+
+        onNameChange(data.name);
+        onCategoryChange(data.category);
+        onAuthorChange(data.author);
+        onDescChange(data.description);
+      }
+    }
+
+    if (id) {
+      fetchData();
+    }
+  }, []);
+
+  async function onEditSubmit() {
+    try {
+      const res = await fetch(`http://localhost:5000/books/${id}`, {
+        method: "PUT",
+        body: JSON.stringify({
+          name: name,
+          category: category,
+          author: author,
+          description: desc
+        }),
+        headers: {
+          "Content-Type": "application/json"
+        }
+      });
+
+      const data = await res.json();
+      if (res.ok) {
+        window.location.pathname = "/";
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  async function onSaveSubmit(params) {
+    try {
+      const res = await fetch(`http://localhost:5000/books`, {
+        method: "POST",
+        body: JSON.stringify({
+          name: name,
+          category: category,
+          author: author,
+          description: desc
+        }),
+        headers: {
+          "Content-Type": "application/json"
+        }
+      });
+
+      if (res.ok) {
+        window.location.pathname = "/";
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  function onSubmit() {
+    if (id) {
+      onEditSubmit();
+    } else {
+      onSaveSubmit();
+    }
+  }
 
   return (
     <>
       <Header as="h2">
-        Edit Book
+        {id ? "Edit Book" : "Add Book"}
         <Header.Subheader>
-          Manage your book details and preferences.
+          {id
+            ? "Manage your book details and preferences."
+            : "Add the book to your store"}
         </Header.Subheader>
       </Header>
-      <Form onSubmit={() => alert("Submitted Bro")}>
+      <Form onSubmit={onSubmit}>
         <Form.Group widths="equal">
           <Form.Field
             value={name}

@@ -1,47 +1,60 @@
 import React from "react";
 import { Grid, Input, Select, Button } from "semantic-ui-react";
 
-const countryOptions = [
-  { key: "af", value: "af", text: "Afghanistan" },
-  { key: "ax", value: "ax", text: "Aland Islands" },
-  { key: "al", value: "al", text: "Albania" },
-  { key: "dz", value: "dz", text: "Algeria" },
-  { key: "as", value: "as", text: "American Samoa" },
-  { key: "ad", value: "ad", text: "Andorra" },
-  { key: "ao", value: "ao", text: "Angola" },
-  { key: "ai", value: "ai", text: "Anguilla" },
-  { key: "ag", value: "ag", text: "Antigua" },
-  { key: "ar", value: "ar", text: "Argentina" },
-  { key: "am", value: "am", text: "Armenia" },
-  { key: "aw", value: "aw", text: "Aruba" },
-  { key: "au", value: "au", text: "Australia" },
-  { key: "at", value: "at", text: "Austria" },
-  { key: "az", value: "az", text: "Azerbaijan" },
-  { key: "bs", value: "bs", text: "Bahamas" },
-  { key: "bh", value: "bh", text: "Bahrain" },
-  { key: "bd", value: "bd", text: "Bangladesh" },
-  { key: "bb", value: "bb", text: "Barbados" },
-  { key: "by", value: "by", text: "Belarus" },
-  { key: "be", value: "be", text: "Belgium" },
-  { key: "bz", value: "bz", text: "Belize" },
-  { key: "bj", value: "bj", text: "Benin" }
+const options = [
+  { key: "f", text: "Fiction", value: "fiction" },
+  { key: "n", text: "Novel", value: "novel" },
+  { key: "o", text: "Others", value: "other" }
 ];
 
-export default function(params) {
+export default function({
+  name,
+  author,
+  category,
+  onNameChange,
+  onAuthorChange,
+  onCategoryChange,
+  onSearch,
+  onResetSearch,
+  ...props
+}) {
   return (
     <div>
       <Grid>
         <Grid.Column width="3">
-          <Input icon="bookmark" placeholder="Search by name" />
+          <Input
+            icon="bookmark"
+            placeholder="Search by name"
+            value={name}
+            onChange={(e, { value }) => onNameChange(value)}
+          />
         </Grid.Column>
         <Grid.Column width="3">
-          <Input icon="user" placeholder="Search by author" />
+          <Input
+            icon="user"
+            placeholder="Search by author"
+            value={author}
+            onChange={(e, { value }) => onAuthorChange(value)}
+          />
         </Grid.Column>
         <Grid.Column width="3">
-          <Select placeholder="Select Category" options={countryOptions} />
+          <Select
+            placeholder="Select Category"
+            options={options}
+            value={category}
+            onChange={(e, { value }) => onCategoryChange(value)}
+          />
         </Grid.Column>
         <Grid.Column width="3">
-          <Button content="Search" secondary icon="search" />
+          <Button content="Search" onClick={onSearch} primary icon="search" />
+        </Grid.Column>
+        <Grid.Column width="3">
+          <Button
+            content="Clear Search"
+            onClick={onResetSearch}
+            secondary
+            icon="times"
+          />
         </Grid.Column>
       </Grid>
     </div>

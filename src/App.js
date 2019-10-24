@@ -15,6 +15,7 @@ import {
  */
 const HomePage = lazy(() => import("./components/pages/home"));
 const EditPage = lazy(() => import("./components/pages/edit"));
+const AddPage = lazy(() => import("./components/pages/add"));
 
 /**
  * Inital Render component for now
@@ -27,6 +28,11 @@ function App() {
     <Router>
       <div>
         <Switch>
+          <Route path="/add">
+            <Suspense fallback={<div>Loading ...</div>}>
+              <AddPage />
+            </Suspense>
+          </Route>
           <Route path="/edit/:id">
             <Suspense fallback={<div>Loading ...</div>}>
               <EditPage />
