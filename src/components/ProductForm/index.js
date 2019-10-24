@@ -25,7 +25,9 @@ function ProductForm({ id, ...props }) {
 
   useEffect(() => {
     async function fetchData(params) {
-      const res = await fetch(`http://localhost:5000/books/${id}`);
+      const res = await fetch(
+        `https://bookstore-backend-eisen.herokuapp.com/books/${id}`
+      );
       if (res.ok) {
         const data = await res.json();
         console.log("Edit Data", data);
@@ -44,18 +46,21 @@ function ProductForm({ id, ...props }) {
 
   async function onEditSubmit() {
     try {
-      const res = await fetch(`http://localhost:5000/books/${id}`, {
-        method: "PUT",
-        body: JSON.stringify({
-          name: name,
-          category: category,
-          author: author,
-          description: desc
-        }),
-        headers: {
-          "Content-Type": "application/json"
+      const res = await fetch(
+        `https://bookstore-backend-eisen.herokuapp.com/books/${id}`,
+        {
+          method: "PUT",
+          body: JSON.stringify({
+            name: name,
+            category: category,
+            author: author,
+            description: desc
+          }),
+          headers: {
+            "Content-Type": "application/json"
+          }
         }
-      });
+      );
 
       const data = await res.json();
       if (res.ok) {
@@ -68,18 +73,21 @@ function ProductForm({ id, ...props }) {
 
   async function onSaveSubmit(params) {
     try {
-      const res = await fetch(`http://localhost:5000/books`, {
-        method: "POST",
-        body: JSON.stringify({
-          name: name,
-          category: category,
-          author: author,
-          description: desc
-        }),
-        headers: {
-          "Content-Type": "application/json"
+      const res = await fetch(
+        `https://bookstore-backend-eisen.herokuapp.com/books`,
+        {
+          method: "POST",
+          body: JSON.stringify({
+            name: name,
+            category: category,
+            author: author,
+            description: desc
+          }),
+          headers: {
+            "Content-Type": "application/json"
+          }
         }
-      });
+      );
 
       if (res.ok) {
         window.location.pathname = "/";

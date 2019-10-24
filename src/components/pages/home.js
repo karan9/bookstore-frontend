@@ -22,7 +22,7 @@ export default function Index(params) {
   async function getDataFromSearch() {
     console.log("Function Called", name, author, category);
     const res = await fetch(
-      `http://localhost:5000/books?${qs.stringify({
+      `https://bookstore-backend-eisen.herokuapp.com/books?${qs.stringify({
         name: name,
         author: author,
         category: category
